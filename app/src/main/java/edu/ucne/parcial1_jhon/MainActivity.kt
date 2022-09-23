@@ -13,10 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import edu.ucne.parcial1_jhon.ui.aux.EditAuxScreen
 import edu.ucne.parcial1_jhon.ui.aux.HomeAuxScreen
 import edu.ucne.parcial1_jhon.ui.theme.Parcial1_JhonTheme
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
