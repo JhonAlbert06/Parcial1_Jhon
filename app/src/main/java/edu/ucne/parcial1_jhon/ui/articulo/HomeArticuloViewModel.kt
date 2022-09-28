@@ -1,4 +1,4 @@
-package edu.ucne.parcial1_jhon.ui.aux
+package edu.ucne.parcial1_jhon.ui.articulo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
