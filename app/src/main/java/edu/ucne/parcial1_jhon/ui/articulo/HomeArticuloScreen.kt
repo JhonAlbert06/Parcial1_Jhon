@@ -37,7 +37,7 @@ fun HomeArticuloScreen(
         floatingActionButton = {
             HomeAuxFab(
                 onFacClicked = { navController.navigate(
-                    route = "EditAuxScreen"
+                    route = "EditArticuloScreen"
                 ) }
             )
         },
