@@ -1,4 +1,4 @@
-package edu.ucne.parcial1_jhon.ui.aux
+package edu.ucne.parcial1_jhon.ui.articulo
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
