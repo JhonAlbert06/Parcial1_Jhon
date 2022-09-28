@@ -1,4 +1,4 @@
-package edu.ucne.parcial1_jhon.ui.aux
+package edu.ucne.parcial1_jhon.ui.articulo
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -15,13 +15,12 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun EditAuxScreen(
+fun EditArticuloScreen(
     navController: NavHostController,
     //viewModel: EditViewModelAux = hiltViewModel()
 ) {
@@ -30,7 +29,7 @@ fun EditAuxScreen(
 
         topBar = {
             EditAuxTopBar(
-                topAppBarText = "Añadir Aux"
+                topAppBarText = "Añadir Articulos"
             )
         },
 
@@ -46,7 +45,7 @@ fun EditAuxScreen(
                 shape = CircleShape,
                 border= BorderStroke(1.dp, Color.Green),
                 onClick = { navController.navigate(
-                    route = "HomeAuxScreen")},
+                    route = "HomeArticuloScreen")},
                 enabled = true
 
             ) {
@@ -54,7 +53,7 @@ fun EditAuxScreen(
                     Icons.Default.Add,
                     contentDescription = null
                 )
-                Text(text = "Añadir Aux")
+                Text(text = "Añadir Articulos")
             }
 
             /*
