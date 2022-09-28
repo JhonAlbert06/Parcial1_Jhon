@@ -49,8 +49,8 @@ fun HomeArticuloScreen(
 
             HomeContent(
                 modifier = Modifier.padding(innerPadding),
-                onDeleteAux = {},
-                onEditAux = {},
+                onDeleteArticulo = {viewModel.delete(it)},
+                onEditArticulo = {},
                 articulos = uiState.articulos ,
             )
         }
@@ -60,8 +60,8 @@ fun HomeArticuloScreen(
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
-    onDeleteAux:(articulo: Articulo) -> Unit,
-    onEditAux: (id: Int?) -> Unit,
+    onDeleteArticulo:(articulo: Articulo) -> Unit,
+    onEditArticulo: (id: Int?) -> Unit,
     articulos: List<Articulo> = emptyList(),
 ) {
 
@@ -73,8 +73,8 @@ fun HomeContent(
             items(articulos){ aux ->
                 AuxItem(
                     articulo = aux,
-                    onEditAux = {onEditAux},
-                    onDeleteAux = {onDeleteAux})
+                    onEditArticulo = {onEditArticulo},
+                    onDeleteArticulo = {onDeleteArticulo})
             }
         }
     }
@@ -94,7 +94,7 @@ fun HomeAuxFab(
     ) {
         Icon(
             imageVector = Icons.Outlined.Add,
-            contentDescription = "Añadir Aux")
+            contentDescription = "Añadir Articulos")
     }
 }
 
@@ -105,7 +105,7 @@ fun HomeAuxTopBar(
     TopAppBar(
         title = {
             Text(
-                text = "Auxs List",
+                text = "Lista de Articulos",
                 textAlign = TextAlign.Center,
                 modifier = modifier
                     .fillMaxSize()
@@ -121,8 +121,8 @@ fun HomeAuxTopBar(
 fun AuxItem(
     modifier: Modifier = Modifier,
     articulo: Articulo,
-    onEditAux: () -> Unit,
-    onDeleteAux: () -> Unit,
+    onEditArticulo: () -> Unit,
+    onDeleteArticulo: () -> Unit,
 ) {
 
     Card(
@@ -163,14 +163,14 @@ fun AuxItem(
 
             Row {
 
-                IconButton(onClick = onEditAux) {
+                IconButton(onClick = onEditArticulo) {
                     Icon(
                         imageVector = Icons.Filled.Edit,
                         contentDescription = null,
                         tint = Color.Green
                     )
                 }
-                IconButton(onClick = onDeleteAux) {
+                IconButton(onClick = onDeleteArticulo) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
                         contentDescription = null,
