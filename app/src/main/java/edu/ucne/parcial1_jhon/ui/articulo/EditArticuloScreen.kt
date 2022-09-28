@@ -2,10 +2,7 @@ package edu.ucne.parcial1_jhon.ui.articulo
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,16 +12,19 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import edu.ucne.parcial1_jhon.ui.components.InputText
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun EditArticuloScreen(
     navController: NavHostController,
-    //viewModel: EditViewModelAux = hiltViewModel()
+    viewModel: EditArticuloViewModel = hiltViewModel()
 ) {
-
+    var isError: Boolean = true
     Scaffold(
 
         topBar = {
@@ -34,32 +34,14 @@ fun EditArticuloScreen(
         },
 
         content = {
-            //CONTENIDO
+            isError = validacion(viewModel = viewModel)
         },
 
         bottomBar = {
-            OutlinedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 18.dp),
-                shape = CircleShape,
-                border= BorderStroke(1.dp, Color.Green),
-                onClick = { navController.navigate(
-                    route = "HomeArticuloScreen")},
-                enabled = true
-
-            ) {
-                Icon(
-                    Icons.Default.Add,
-                    contentDescription = null
-                )
-                Text(text = "Añadir Articulos")
-            }
-
-            /*
             EditBottomBar(
-                onInsertOcupacion = {}
-            )*/
+                onInsertArticulo = {},
+                isError = isError
+            )
         }
 
     )
@@ -68,7 +50,7 @@ fun EditArticuloScreen(
 @Composable
 fun EditBottomBar(
     modifier: Modifier = Modifier,
-    onInsertAux: () -> Unit,
+    onInsertArticulo: () -> Unit,
     isError: Boolean = true
 ) {
     OutlinedButton(
@@ -76,8 +58,8 @@ fun EditBottomBar(
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 18.dp),
         shape = CircleShape,
-        border= BorderStroke(1.dp, Color.Green),
-        onClick = { onInsertAux() },
+        border = BorderStroke(1.dp, Color.Green),
+        onClick = { onInsertArticulo() },
         enabled = isError
 
     ) {
@@ -90,7 +72,53 @@ fun EditBottomBar(
 }
 
 @Composable
-fun EditConten() {
+fun EditConten(
+    viewModel: EditArticuloViewModel,
+    isErrorExistencia: Boolean,
+    isErrorMarca: Boolean,
+    isErrorDescripcion: Boolean,
+    mgsIsErrorExistencia: String,
+    mgsIrrorMarca: String,
+    mgsIrrorDescripcion: String
+) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+
+        InputText(
+            isError = isErrorDescripcion,
+            msgError = mgsIrrorDescripcion,
+            value = viewModel.descripcion,
+            onValueChange = { viewModel.descripcion = it },
+            label = "Descripcion",
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.padding(5.dp))
+
+        InputText(
+            isError = isErrorMarca,
+            msgError = mgsIrrorMarca,
+            value = viewModel.marca,
+            onValueChange = { viewModel.marca = it },
+            label = "Marca",
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.padding(5.dp))
+
+        InputText(
+            isError = isErrorExistencia,
+            msgError = mgsIsErrorExistencia,
+            value = viewModel.existencia,
+            onValueChange = { viewModel.existencia = it },
+            label = "Existencia",
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.padding(5.dp))
+
+    }
 
 }
 
@@ -112,3 +140,64 @@ fun EditAuxTopBar(topAppBarText: String) {
 
 }
 
+fun isNumber(aux: String): Boolean {
+    return try {
+        aux.toDouble()
+        true
+    } catch (e: java.lang.NumberFormatException) {
+        false
+    }
+}
+
+@Composable
+fun validacion(viewModel: EditArticuloViewModel): Boolean {
+
+    var isErrorExistencia: Boolean = false
+    var isErrorMarca: Boolean = false
+    var isErrorDescripcion: Boolean = false
+    var mgsIsErrorExistencia: String = ""
+    var mgsIrrorMarca: String = ""
+    var mgsIrrorDescripcion: String = ""
+
+    if (viewModel.descripcion.isBlank()) {
+        isErrorDescripcion = true
+        mgsIrrorDescripcion = "*Campo Obligatorio*"
+    } else if (!viewModel.descripcion.isDigitsOnly()) {
+        isErrorDescripcion = true
+        mgsIrrorDescripcion = "*Descripcion invalidad(Solo puede contener letras)*"
+    } else if (viewModel.descripcion.length in 1..4) {
+        isErrorDescripcion = true
+        mgsIrrorDescripcion = "*La descripcion debe contener minimo(5) Caracteres*"
+    }
+
+    if (viewModel.marca.isBlank()) {
+        isErrorMarca = true
+        mgsIrrorMarca = "*Campo Obligatorio*"
+    } else if (!viewModel.marca.isDigitsOnly()) {
+        isErrorMarca = true
+        mgsIrrorMarca = "*Descripcion invalidad(Solo puede contener letras)*"
+    } else if (viewModel.marca.length in 1..4) {
+        isErrorMarca = true
+        mgsIrrorMarca = "*La descripcion debe contener minimo(5) Caracteres*"
+    }
+
+    if (viewModel.existencia.isBlank()) {
+        isErrorExistencia = true
+        mgsIsErrorExistencia = "*Campo Obligatorio*"
+    } else if (isNumber(viewModel.existencia)) {
+        isErrorExistencia = true
+        mgsIsErrorExistencia = "*Esto no es un Numero*"
+    }
+
+    EditConten(
+        viewModel = viewModel,
+        isErrorExistencia = isErrorExistencia,
+        isErrorMarca = isErrorMarca,
+        isErrorDescripcion = isErrorDescripcion,
+        mgsIsErrorExistencia = mgsIsErrorExistencia,
+        mgsIrrorMarca = mgsIrrorMarca,
+        mgsIrrorDescripcion = mgsIrrorDescripcion
+    )
+
+    return !(isErrorExistencia && isErrorDescripcion && isErrorMarca)
+}
