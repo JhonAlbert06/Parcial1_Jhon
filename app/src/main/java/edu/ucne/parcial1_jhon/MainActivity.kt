@@ -3,19 +3,12 @@ package edu.ucne.parcial1_jhon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import edu.ucne.parcial1_jhon.ui.aux.EditAuxScreen
-import edu.ucne.parcial1_jhon.ui.aux.HomeAuxScreen
+import edu.ucne.parcial1_jhon.ui.articulo.EditArticuloScreen
+import edu.ucne.parcial1_jhon.ui.articulo.HomeArticuloScreen
 import edu.ucne.parcial1_jhon.ui.theme.Parcial1_JhonTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,15 +21,15 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "HomeAuxScreen"
+                    startDestination = "HomeArticuloScreen"
                 ) {
 
-                    composable("HomeAuxScreen") {
-                        HomeAuxScreen(navController = navController)
+                    composable("HomeArticuloScreen") {
+                        HomeArticuloScreen(navController = navController)
                     }
 
-                    composable("EditAuxScreen") {
-                        EditAuxScreen(navController = navController)
+                    composable("EditArticuloScreen") {
+                        EditArticuloScreen(navController = navController)
                     }
 
                 }
