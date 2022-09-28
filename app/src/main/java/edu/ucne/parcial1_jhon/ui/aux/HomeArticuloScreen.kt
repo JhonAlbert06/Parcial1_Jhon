@@ -20,12 +20,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import edu.ucne.parcial1_jhon.data.local.entity.Aux
+import edu.ucne.parcial1_jhon.data.local.entity.Articulo
 
 @Composable
-fun HomeAuxScreen(
+fun HomeArticuloScreen(
     navController: NavController,
-    viewModel: HomeViewModelAux = hiltViewModel()
+    viewModel: HomeArticuloViewModel = hiltViewModel()
 ) {
     Scaffold(
 
@@ -51,7 +51,7 @@ fun HomeAuxScreen(
                 modifier = Modifier.padding(innerPadding),
                 onDeleteAux = {},
                 onEditAux = {},
-                auxs = uiState.auxs ,
+                articulos = uiState.articulos ,
             )
         }
     )
@@ -60,9 +60,9 @@ fun HomeAuxScreen(
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
-    onDeleteAux:(aux: Aux) -> Unit,
+    onDeleteAux:(articulo: Articulo) -> Unit,
     onEditAux: (id: Int?) -> Unit,
-    auxs: List<Aux> = emptyList(),
+    articulos: List<Articulo> = emptyList(),
 ) {
 
     Surface(
@@ -70,9 +70,9 @@ fun HomeContent(
         modifier = modifier,
     ) {
         LazyColumn{
-            items(auxs){ aux ->
+            items(articulos){ aux ->
                 AuxItem(
-                    aux = aux,
+                    articulo = aux,
                     onEditAux = {onEditAux},
                     onDeleteAux = {onDeleteAux})
             }
@@ -120,7 +120,7 @@ fun HomeAuxTopBar(
 @Composable
 fun AuxItem(
     modifier: Modifier = Modifier,
-    aux: Aux,
+    articulo: Articulo,
     onEditAux: () -> Unit,
     onDeleteAux: () -> Unit,
 ) {
@@ -142,21 +142,21 @@ fun AuxItem(
             ) {
 
                 Text(
-                    text = "aux1: ${aux.aux1}",
+                    text = "Descripcion: ${articulo.descripcion}",
                     style = MaterialTheme.typography.h6
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "aux2: ${aux.aux2}",
+                    text = "Marca: ${articulo.marca}",
                     style = MaterialTheme.typography.h6
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "aux2: ${aux.aux3}",
+                    text = "Existencia: ${articulo.existencia}",
                     style = MaterialTheme.typography.h6
                 )
             }
