@@ -8,6 +8,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -15,16 +18,18 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import edu.ucne.parcial1_jhon.data.local.entity.Articulo
 import edu.ucne.parcial1_jhon.ui.components.InputText
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun EditArticuloScreen(
     navController: NavHostController,
     viewModel: EditArticuloViewModel = hiltViewModel()
 ) {
-    var isError: Boolean = true
+    var isError by mutableStateOf(true)
+
     Scaffold(
 
         topBar = {
@@ -39,7 +44,13 @@ fun EditArticuloScreen(
 
         bottomBar = {
             EditBottomBar(
-                onInsertArticulo = {},
+                onInsertArticulo = {viewModel.save(
+                    Articulo(
+                        descripcion = viewModel.descripcion,
+                        marca = viewModel.marca,
+                        existencia = viewModel.existencia.toDouble()
+                    )
+                )},
                 isError = isError
             )
         }
@@ -143,9 +154,9 @@ fun EditAuxTopBar(topAppBarText: String) {
 fun isNumber(aux: String): Boolean {
     return try {
         aux.toDouble()
-        true
-    } catch (e: java.lang.NumberFormatException) {
         false
+    } catch (e: java.lang.NumberFormatException) {
+        true
     }
 }
 
@@ -162,7 +173,7 @@ fun validacion(viewModel: EditArticuloViewModel): Boolean {
     if (viewModel.descripcion.isBlank()) {
         isErrorDescripcion = true
         mgsIrrorDescripcion = "*Campo Obligatorio*"
-    } else if (!viewModel.descripcion.isDigitsOnly()) {
+    } else if (viewModel.descripcion.isDigitsOnly()) {
         isErrorDescripcion = true
         mgsIrrorDescripcion = "*Descripcion invalidad(Solo puede contener letras)*"
     } else if (viewModel.descripcion.length in 1..4) {
@@ -173,7 +184,7 @@ fun validacion(viewModel: EditArticuloViewModel): Boolean {
     if (viewModel.marca.isBlank()) {
         isErrorMarca = true
         mgsIrrorMarca = "*Campo Obligatorio*"
-    } else if (!viewModel.marca.isDigitsOnly()) {
+    } else if (viewModel.marca.isDigitsOnly()) {
         isErrorMarca = true
         mgsIrrorMarca = "*Descripcion invalidad(Solo puede contener letras)*"
     } else if (viewModel.marca.length in 1..4) {
