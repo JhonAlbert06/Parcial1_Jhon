@@ -26,9 +26,12 @@ import edu.ucne.parcial1_jhon.ui.components.InputText
 @Composable
 fun EditArticuloScreen(
     navController: NavHostController,
-    viewModel: EditArticuloViewModel = hiltViewModel()
+    viewModel: EditArticuloViewModel = hiltViewModel(),
+    articuloId: Int = 0
 ) {
     var isError by mutableStateOf(true)
+
+    viewModel.currenId = articuloId
 
     Scaffold(
 

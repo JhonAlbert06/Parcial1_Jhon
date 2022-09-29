@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.parcial1_jhon.data.local.entity.Articulo
 import edu.ucne.parcial1_jhon.data.repository.ArticuloRepository
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,11 +21,27 @@ class EditArticuloViewModel @Inject constructor(
     var marca by mutableStateOf("")
     var existencia by mutableStateOf("")
 
+    var currenId by mutableStateOf(0)
+
+    init {
+        viewModelScope.launch {
+            var articulo = repository.getById(currenId)
+
+            if (articulo != null) {
+                descripcion = articulo.descripcion
+                marca = articulo.marca
+                existencia = articulo.existencia.toString()
+            }
+        }
+    }
+
     fun save(articulo: Articulo){
         viewModelScope.launch {
             repository.insert(articulo)
         }
     }
+
+
 
 
 }
